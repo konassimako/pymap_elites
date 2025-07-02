@@ -129,14 +129,18 @@ def compute(dim_map, dim_x, f,
         # write archive
         if b_evals >= params['dump_period'] and params['dump_period'] != -1:
             print("[{}/{}]".format(n_evals, int(max_evals)), end=" ", flush=True)
-            cm.__save_archive(archive, n_evals)
+            cm.__save_archive(archive, n_evals, params['save_path'])
             b_evals = 0
         # write log
         if log_file != None:
             fit_list = np.array([x.fitness for x in archive.values()])
-            log_file.write("{} {} {} {} {} {} {}\n".format(n_evals, len(archive.keys()),
-                    fit_list.max(), np.mean(fit_list), np.median(fit_list),
-                    np.percentile(fit_list, 5), np.percentile(fit_list, 95)))
+            # log_file.write("Evals: {}, Niches: {}, Max reward: {}, Mean reward: {}, Median reward: {},  {} {}\n".format(n_evals, len(archive.keys()),
+            #         fit_list.max(), np.mean(fit_list), np.median(fit_list),
+            #         np.percentile(fit_list, 5), np.percentile(fit_list, 95)))
+
+            log_file.write("Evals: {}, Niches: {}, Max reward: {}, Median reward: {}\n".format(n_evals, len(archive.keys()),
+                    fit_list.max(), np.median(fit_list)))
+
             log_file.flush()
-    cm.__save_archive(archive, n_evals)
+    cm.__save_archive(archive, n_evals, params['save_path'])
     return archive

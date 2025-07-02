@@ -68,7 +68,9 @@ default_params = \
         "max": 1,
         # only useful if you use the 'iso_dd' variation operator
         "iso_sigma": 0.01,
-        "line_sigma": 0.2
+        "line_sigma": 0.2,
+        # archive save path
+        "save_path": "./"
     }
 
 class Species:
@@ -211,11 +213,11 @@ def parallel_eval(evaluate_function, to_evaluate, pool, params):
 
 # format: fitness, centroid, desc, genome \n
 # fitness, centroid, desc and x are vectors
-def __save_archive(archive, gen):
+def __save_archive(archive, gen, path):
     def write_array(a, f):
         for i in a:
             f.write(str(i) + ' ')
-    filename = 'archive_' + str(gen) + '.dat'
+    filename = path + 'archive_' + str(gen) + '.dat'
     with open(filename, 'w') as f:
         for k in archive.values():
             f.write(str(k.fitness) + ' ')
